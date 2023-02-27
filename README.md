@@ -1,2 +1,2 @@
 # ChangeDetection_NFAclustering
-Change detection between two images with NFA clustering
+This is Matlab app for change detection between two images with NFA clustering.
