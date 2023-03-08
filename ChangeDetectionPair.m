@@ -1,4 +1,4 @@
-function [maxClusters,pointVec] = ChangeDetection(img_ref,img_test,ccf)
+function [maxClusters,pointVec] = ChangeDetectionPair(img_ref,img_test,ccf)
 %ChangeDetection Computes the meaningful clusters of points present in the difference image between two colour image 
 %   inputs:
 %   img_ref reference image
