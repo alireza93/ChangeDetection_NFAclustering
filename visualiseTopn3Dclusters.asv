@@ -1,0 +1,22 @@
+function [] = visualiseTopn3Dclusters(maxClusters,pointVec,n,sz)
+%visualiseTopn3Dclusters Visualises the top n 3D clusters present 
+%   Detailed explanation goes here
+clrmap = [1,0,0;0,1,0;0,0,1;1,1,0;1,0,1;0,1,1;1,1,0.5;0.5,1,1;1,0.5,1;0.5,0.5,0.5];
+figure; hold on;
+for i=1:size(maxClusters,1)
+    cluster = maxClusters{i};
+    whites = pointVec(cluster,:);
+    
+    y = whites(:,1);
+    x = whites(:,2);
+    z = whites(:,3);
+
+    if i>n
+        scatter3(x,y,z,10,[0.8 0.8 0.8],'filled');
+    else
+        scatter3(x,y,z,10,clrmap(rem(i-1,10)+1,:),'filled');
+    end
+end
+
+end
+

@@ -23,8 +23,6 @@ function [difMap] = difMap(img1,img2, tx, ty, cdf)
             difMap(i,j) = dif;
         end
     end
-    
-   
 
 end
 

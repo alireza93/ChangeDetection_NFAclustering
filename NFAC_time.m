@@ -1,64 +1,27 @@
-function [maxClusters, pointVec, debugMat] = NFAC_gl(difImg,ccf,th)
-    s1 = size(difImg,1);
-    s2 = size(difImg,2);
-    border = 1;
-
-    %% binary threshold 
-
-
-    bw = ones(ceil(size(difImg)));
-    temp = difImg;
-
-    temp(temp<=th) = 0;
-    temp(temp>th) = 1;
-    bw = bw & temp;
-    %% Recover seed points
-
-
-
-    [rows,cols] = find(bw);
-    pointVec = [rows,cols];
-
-    %% function
-    %d=linspace(min(difImg(:)),max(difImg(:)),128);
-    %imgGr=uint8(arrayfun(@(x) find(abs(d(:)-x)==min(abs(d(:)-x))),log(difImg)));
-    temp = double(difImg);
-    tempIdx = temp<=th;
-
-    temp = arrayfun(@(x) (1+tanh(-0.5*(x-th))), temp); 
-    temp(tempIdx) = 0;
-    maxGl = max(temp,[],'all');
-    imgGr = double((temp/maxGl)*128);
-
- 
-    %% Distance matrix
-
+function [maxClusters] = NFAC_time(pointVec,cubeSize)
     dist = pdist2(pointVec,pointVec);
 
     c=1;
     pcSize = size(pointVec,1);
     distVec = zeros(pcSize*(pcSize-1)/2,1);
     distIdx = zeros(pcSize*(pcSize-1)/2,2);
-    dist2 = zeros(size(dist));
     for i=1:pcSize
         for j=(i+1):pcSize
-           gl1 = imgGr(pointVec(i,1),pointVec(i,2));
-           gl2 = imgGr(pointVec(j,1),pointVec(j,2));
-           distVec(c) = sqrt((dist(i,j))^2 + ccf*(gl1^2 + gl2^2));
-           dist2(i,j) = distVec(c);
-           dist2(j,i) = distVec(c);
-           distIdx(c,:) = [i,j];
-           c = c+1;
+            distVec(c) = dist(i,j);
+            distIdx(c,:) = [i,j];
+            c = c+1;
         end
     end
 
-
     [distSorted, distSortedIdx] = sort(distVec);
     edgesSorted = distIdx(distSortedIdx,:);
+
     %% Min span tree
 
-    G = graph(edgesSorted(:,1)',edgesSorted(:,2)',distSorted);    
+    G = graph(edgesSorted(:,1)',edgesSorted(:,2)',distSorted);
+    
     [T,pred] = minspantree(G);
+    
 
     % init
     SpanTree = zeros(2*pcSize - 1,4);
@@ -107,32 +70,24 @@ function [maxClusters, pointVec, debugMat] = NFAC_gl(difImg,ccf,th)
 
 
 
-        imgBk = uint8(zeros(size(bw)));
+        im3d = uint8(zeros(cubeSize));
 
         whites = pointVec(cluster,:);
         for j=1:size(whites,1)
             ind1 = whites(j,1);
             ind2 = whites(j,2);
-            imgBk(ind1,ind2) = ceil(imgGr(ind1, ind2));
+            ind3 = whites(j,3);
+            im3d(ind1,ind2,ind3+1) = 255;
         end
-       % minDist
-        i-pcSize
         minDistMat(i-pcSize) = minDist;
-        if((minDistPrim - minDist)<0)
-            logNfa(i-pcSize) = 0;
-            debug = [];
-        else
-            
-            [logNfa(i-pcSize),debug] = computeClusterNFA(imgBk,size(whites,1),minDist, minDistPrim, pcSize);
-        end
-
-        if ~isempty(debug) , debugMat(i-pcSize,:)=debug; end
+        
+        logNfa(i-pcSize) = compute3DClusterNFA(im3d,size(whites,1),minDist, minDistPrim, pcSize);
+        clusterPrev = cluster;
+        cluster = [];
     end
-    
     logNfa(logNfa==inf) = 0;
 
-
-    %% Maximal clusters
+    % Maximal clusters
     [nfaSorted, nfaSortedIdx] = sort(logNfa, 'descend');
 
     J = 0;
@@ -153,6 +108,7 @@ function [maxClusters, pointVec, debugMat] = NFAC_gl(difImg,ccf,th)
 
         end
     end
+
 
 end
 

@@ -2,7 +2,7 @@ function [maxClusters,pointVec] = ChangeDetectionSeries(bw)
 %ChangeDetectionSeries Computes the 3D clusters present in a series of binary
 %images
 %   inputs: 
-%   bw a cell array of binary images
+%   bw a cell array of binary images of the same size
 %   outputs:
 %   maxClusters a cell array of clusters ordered based on their
 %   meaningfulness
@@ -10,7 +10,7 @@ function [maxClusters,pointVec] = ChangeDetectionSeries(bw)
 
 thirdDimFact = 2;  
 pointVec = [];
-datasetSize = size(bw,1);
+datasetSize = size(bw,2);
 for i=1:datasetSize
     bw{i} = imresize(bw{i},[90 NaN]);
     [rows,cols] = find(bw{i});

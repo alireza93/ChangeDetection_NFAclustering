@@ -1,6 +1,7 @@
 function [img_ref,img_test] = prep(img_ref,img_test)
-%prep Summary of this function goes here
-%   Detailed explanation goes here
+%prep Preprocessing steps necessary to perform change detecrion between the
+%two input image
+
 %% simple intensity correction
 b1 = mean2(rgb2gray(img_ref));
 b2 = mean2(rgb2gray(img_test));
