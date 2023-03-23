@@ -116,7 +116,7 @@ function [maxClusters, pointVec, debugMat] = NFAC_gl(difImg,ccf,th)
             imgBk(ind1,ind2) = ceil(imgGr(ind1, ind2));
         end
        % minDist
-        i-pcSize
+        %i-pcSize
         minDistMat(i-pcSize) = minDist;
         if((minDistPrim - minDist)<0)
             logNfa(i-pcSize) = 0;
@@ -130,8 +130,7 @@ function [maxClusters, pointVec, debugMat] = NFAC_gl(difImg,ccf,th)
     end
     
     logNfa(logNfa==inf) = 0;
-
-
+    
     %% Maximal clusters
     [nfaSorted, nfaSortedIdx] = sort(logNfa, 'descend');
 

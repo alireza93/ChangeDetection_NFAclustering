@@ -1,23 +1,26 @@
-function [maxClusters,pointVec] = ChangeDetectionSeries(bw)
-%ChangeDetectionSeries Computes the 3D clusters present in a series of binary
+function [maxClusters,pointVec] = ChangeDetectionSeries(imgs)
+%ChangeDetectionSeries Computes the 3D clusters of changed points present
+%in a series of images
 %images
 %   inputs: 
-%   bw a cell array of binary images of the same size
+%   imgs a cell array of images of the same size
 %   outputs:
 %   maxClusters a cell array of clusters ordered based on their
 %   meaningfulness
-%   pointVec coordinates of all the points in the 3d point cloud
+%   pointVec coordinates of all the possible changed points in the 3d point cloud
 
-thirdDimFact = 2;  
-pointVec = [];
-datasetSize = size(bw,2);
-for i=1:datasetSize
-    bw{i} = imresize(bw{i},[90 NaN]);
-    [rows,cols] = find(bw{i});
-    pointVec = [pointVec; [rows,cols,repelem((i-1)*thirdDimFact,size(rows,1))']];
+ccf = 0.1;
+n = 4;
+datasetSize = size(imgs,2);
+img_ref = imgs{1};
+for i=2:datasetSize
+    i-1
+    img_test = imgs{i};
+    [maxClusters,pointVec,img_dif] = ChangeDetection(img_ref,img_test,ccf);
+    bw{i-1} = top_n_mask(maxClusters,pointVec,size(img_dif),n);
 end
 
-maxClusters = NFAC_time(pointVec,[size(bw{1}),thirdDimFact*datasetSize]);
+[maxClusters,pointVec] = find3Dclusters(bw);
 
 end
 

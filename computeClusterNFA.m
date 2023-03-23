@@ -56,6 +56,8 @@ function [logNFA, debug] = computeClusterNFA(imgBk, k, minDist, minPrim, M)
     debug(4) = minDist;
     debug(5) = minPrim;    
     debug(6) = k;
-       
+    clear distance3d
+
+    
 end
 

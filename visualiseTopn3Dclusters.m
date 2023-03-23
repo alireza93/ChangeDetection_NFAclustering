@@ -15,7 +15,7 @@ for i=1:size(maxClusters,1)
     whites = pointVec(cluster,:);
     
     y = whites(:,1);
-    x = whites(:,2);
+    x = -whites(:,2);
     z = whites(:,3);
 
     if i>n
