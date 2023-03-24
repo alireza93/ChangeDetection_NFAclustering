@@ -8,7 +8,11 @@ This project is the implementation of change detection using Number of False Ala
 ## Main functions
 This code base includes one GUI Matlab App and two main console functions:
 - *ChangeDetectionPair.mlapp* is a GUI Matlab App which accepts a pair of images as input and visualises the change between the two as a list of clusters. 
-![main page](./Readme/1.jpg)
-![inputs loaded](./Readme/2.jpg)
-![results](./Readme/3.jpg)
+
+![main page](./Readme/1.png)
+![inputs loaded](./Readme/2.png)
+![results](./Readme/3.png)
+
+- *ChangeDetection.m* is a console function which can be used as an alternative to the app above. It returns a list of possible changed clusters between the two image. To visualise the results the following functions can be used: *top_n_label.m*, *top_n_mask.m*, *top_n_overlay.m*, *visualisePointCloud.m*.
+- *ChangeDetectionSeries.m* is a console function which gets a series of images as input and returns a list of 3D clusters of possible changed points compared to the first image. The list is sorted based on it's significance spatially and temporally. To visualise the results the function *visualiseTopn3Dclusters.m* can be used.
 
