@@ -8,4 +8,7 @@ This project is the implementation of change detection using Number of False Ala
 ## Main functions
 This code base includes one GUI Matlab App and two main console functions:
 - *ChangeDetectionPair.mlapp* is a GUI Matlab App which accepts a pair of images as input and visualises the change between the two as a list of clusters. 
+![main page](./Readme/1.jpg)
+![inputs loaded](./Readme/2.jpg)
+![results](./Readme/3.jpg)
 
